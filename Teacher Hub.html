@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Teacher Hub</title>
+<meta name="theme-color" content="#0F5C63">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Teacher Hub">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{--bg:#F3F7F6;--card:#fff;--ink:#12302F;--mut:#58706E;--pri:#0F5C63;--acc:#E8B547;--line:#D8E3E1;--err:#B42318;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0D1A1B;--card:#142627;--ink:#E7F0EF;--mut:#9CB4B2;--pri:#1F8089;--line:#25403F;--err:#FF9B91;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#0D1A1B;--card:#142627;--ink:#E7F0EF;--mut:#9CB4B2;--pri:#1F8089;--line:#25403F;--err:#FF9B91;color-scheme:dark}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,'Segoe UI',Tahoma,Arial,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--pri);z-index:30}
+h1,h2,h3{font-family:Georgia,'Times New Roman',serif;margin:0 0 .5rem}
+h1{font-size:1.7rem}h3{font-size:1.1rem;margin-top:1.6rem}
+button,input,select,textarea{font:inherit;color:inherit}
+.i{width:22px;height:22px;flex:none}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:.75rem;padding:.6rem 1rem;background:var(--pri);color:#fff}
+.top h2{flex:1;margin:0;font-size:1.2rem}
+.ib{background:none;border:0;color:inherit;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;cursor:pointer}
+.ib:hover{background:rgba(127,127,127,.18)}
+.av,.pic{border-radius:50%;overflow:hidden;background:var(--acc);color:#12302F;display:grid;place-items:center;font-weight:700;border:2px solid rgba(255,255,255,.6);cursor:pointer;padding:0}
+.av{width:40px;height:40px}.pic{width:96px;height:96px;font-size:2rem;border-color:var(--line);cursor:default}
+.av img,.pic img{width:100%;height:100%;object-fit:cover}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}
+.ov.on{opacity:1;pointer-events:auto}
+.side{position:fixed;top:0;bottom:0;left:0;width:min(300px,84vw);background:var(--card);z-index:50;transform:translateX(-102%);transition:transform .25s;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + .8rem) .8rem calc(env(safe-area-inset-bottom,0px) + .8rem);box-shadow:4px 0 24px rgba(0,0,0,.2);visibility:hidden}
+.side.open{transform:none;visibility:visible}
+.sh{display:flex;gap:.7rem;align-items:center;padding:.4rem .5rem 1rem;border-bottom:1px solid var(--line);margin-bottom:.6rem}
+.sh svg{width:46px;height:46px}.sh div{display:grid;min-width:0}.sh span{color:var(--mut);font-size:.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side>button{display:flex;gap:.8rem;align-items:center;width:100%;padding:.8rem;border:0;background:none;border-radius:12px;text-align:left;cursor:pointer}
+.side>button:hover{background:var(--bg)}
+.side>button.on{background:var(--pri);color:#fff}
+.side .out{margin-top:auto;color:var(--err)}
+main{max-width:920px;margin:0 auto;padding:1.2rem 1rem 3rem}
+main.in{animation:in .25s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem}
+.grid{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));align-items:end;margin-bottom:1rem}
+.f{display:grid;gap:.25rem;font-size:.92rem;font-weight:600}
+.f input,.f select,.f textarea{border:1.5px solid var(--line);background:var(--bg);border-radius:10px;padding:.65rem .75rem;font-weight:400;width:100%;min-height:44px}
+.f input:focus,.f select:focus,.f textarea:focus,button:focus-visible{outline:3px solid var(--acc);outline-offset:1px}
+.err{color:var(--err);font-weight:400;min-height:0}
+.btn{background:var(--pri);color:#fff;border:0;border-radius:10px;padding:.75rem 1.2rem;font-weight:700;cursor:pointer;min-height:46px;display:inline-flex;align-items:center;justify-content:center}
+.btn:hover{filter:brightness(1.1)}.btn.ghost{background:none;color:var(--ink);border:1.5px solid var(--line)}
+.btn[hidden]{display:none}
+.auth{max-width:440px;margin:0 auto;padding:1.5rem 1rem 3rem;text-align:center}
+.logo svg{width:92px;height:92px;border-radius:24px;box-shadow:0 8px 24px rgba(15,92,99,.3)}
+.auth h1{margin:1rem 0 .1rem}.gr{color:var(--mut);margin:0 0 1.2rem;font-size:1.05rem}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:1rem}
+.tabs button{border:0;background:none;border-radius:9px;padding:.65rem;font-weight:700;cursor:pointer}
+.tabs .on{background:var(--pri);color:#fff}
+.auth form{display:grid;gap:.8rem;text-align:left}
+.hero{background:var(--pri);color:#fff;border-radius:16px;padding:1.2rem;margin-bottom:1rem;border-bottom:5px solid var(--acc)}
+.hero p{margin:0;opacity:.85}.hero h1{margin:.2rem 0 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem;text-align:left;cursor:pointer;display:grid}
+.stat b{font-size:2rem;font-family:Georgia,serif}
+.rows{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
+.rows li{display:flex;align-items:center;gap:.6rem;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--acc);border-radius:12px;padding:.7rem .9rem}
+.rows li div{flex:1;display:grid;min-width:0}.rows span,.mut{color:var(--mut);font-size:.92rem}
+.pr{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin:1rem 0}
+dt{color:var(--mut);font-size:.85rem}dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+#pf{display:grid;gap:.8rem}
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 1.2rem);transform:translate(-50%,30px);background:#12302F;color:#fff;padding:.7rem 1.1rem;border-radius:12px;opacity:0;transition:.25s;z-index:90;pointer-events:none;max-width:90vw}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+#splash{position:fixed;inset:0;background:#0F5C63;color:#fff;display:grid;place-content:center;justify-items:center;gap:.8rem;z-index:100;transition:opacity .4s}
+#splash svg{width:96px;height:96px}#splash.off{opacity:0;pointer-events:none}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head>
+<body>
+<div id="app"></div><div id="toast" role="status" aria-live="polite"></div>
+<div id="splash"></div>
+<script>
+const $=(s,r=document)=>r.querySelector(s),E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const mem={},store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch{return mem[k]??null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{mem[k]=v}}};
+const LOGO='<svg viewBox="0 0 64 64" aria-label="School logo"><rect width="64" height="64" rx="16" fill="#0F5C63"/><path d="M12 22c8-3 14-2 20 2 6-4 12-5 20-2v26c-8-3-14-2-20 2-6-4-12-5-20-2z" fill="#E8B547"/><path d="M32 24v26" stroke="#0F5C63" stroke-width="3"/></svg>';
+const I={menu:'M4 6h16M4 12h16M4 18h16',home:'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z',book:'M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5zM4 19.5V21h16',eye:'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',users:'M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM21 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8',user:'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',info:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 16v-4M12 8h.01',logout:'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9',trash:'M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6'};
+const ic=n=>`<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${I[n]}"/></svg>`;
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const NAV=[['home','Home','home'],['lessons','Lessons','book'],['duties','Break Supervision','eye'],['classes','Classes','users'],['profile','Profile','user'],['about','About','info']];
+const L={lessons:{t:'Lessons',a:'lesson',f:[['title','Lesson title','text'],['cls','Class','text'],['day','Day','day'],['time','Time','time']],h:i=>i.title,s:i=>`${i.cls}, ${i.day} at ${i.time}`,e:'No lessons yet. Add your first lesson above.'},
+duties:{t:'Break Supervision',a:'duty',f:[['place','Location','text'],['day','Day','day'],['time','Time','time'],['note','Notes (optional)','text',1]],h:i=>i.place,s:i=>`${i.day} at ${i.time}${i.note?', '+i.note:''}`,e:'No supervision duties yet. Add one above.'},
+classes:{t:'Classes',a:'class',f:[['name','Class name','text'],['students','Number of students','number'],['room','Room (optional)','text',1]],h:i=>i.name,s:i=>`${i.students} students${i.room?', room '+i.room:''}`,e:'No classes yet. Add your first class above.'}};
+let users=store.get('tm_users')||{},me=null,page='home',draft={},dp=null;
+const save=()=>store.set('tm_users',users);
+const b64=a=>btoa(String.fromCharCode(...new Uint8Array(a)));
+const rnd=()=>b64(crypto.getRandomValues(new Uint8Array(16)));
+async function hash(pw,salt){const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);return b64(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:Uint8Array.from(atob(salt),c=>c.charCodeAt(0)),iterations:150000},k,256))}
+const greet=()=>{const h=+new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Baghdad',hour:'2-digit',hourCycle:'h23'}).format(new Date());return h>=5&&h<12?'Good morning':h<17?'Good afternoon':'Good evening'};
+const today=()=>new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Baghdad',weekday:'long'}).format(new Date());
+let tt;const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2600)};
+const fld=(n,l,t,x='')=>`<label class="f">${l}<input name="${n}" type="${t}" ${x}><small class="err" data-e="${n}"></small></label>`;
+function showErr(f,er){f.querySelectorAll('.err').forEach(e=>e.textContent=er[e.dataset.e]||'');const k=Object.keys(er)[0];if(k)f.elements[k]?.focus();return !k}
+const pwOk=p=>p.length>=8&&/[A-Za-z]/.test(p)&&/\d/.test(p),PWMSG='Use at least 8 characters with a letter and a number.';
+const avatar=u=>u.photo?`<img src="${u.photo}" alt="">`:`<span>${E(u.name[0]||'?')}</span>`;
+
+function auth(mode='login'){me=null;const lg=mode==='login';
+$('#app').innerHTML=`<main class="auth"><div class="logo">${LOGO}</div><h1>Welcome, Dear Teacher!</h1><p class="gr">${greet()}</p>
+<div class="tabs"><button data-m="login" class="${lg?'on':''}">Login</button><button data-m="reg" class="${lg?'':'on'}">Create Account</button></div>
+<form id="af" novalidate>${lg?fld('email','Email address','email','autocomplete="username"')+fld('password','Password','password','autocomplete="current-password"'):
+fld('name','Full name','text','autocomplete="name"')+fld('email','Email address','email','autocomplete="email"')+fld('password','Password','password','autocomplete="new-password"')+fld('confirm','Confirm password','password','autocomplete="new-password"')+fld('birthday','Birthday','date','max="'+new Date().toISOString().slice(0,10)+'"')+
+`<label class="f">Grade<select name="grade"><option value="">Choose grade</option>${Array.from({length:12},(_,i)=>`<option>Grade ${i+1}</option>`).join('')}</select><small class="err" data-e="grade"></small></label>`+fld('subject','Subject','text','list="subs" placeholder="e.g. Mathematics"')+'<datalist id="subs"><option>Arabic<option>English<option>Mathematics<option>Science<option>Physics<option>Chemistry<option>Biology<option>Social Studies<option>Islamic Education<option>Computer Science<option>Art<option>Physical Education</datalist>'}
+<button class="btn">${lg?'Login':'Create Account'}</button></form>
+<p><button class="btn ghost inst" hidden>Install app</button></p></main>`;
+$('#af').onsubmit=e=>{e.preventDefault();(lg?login:reg)(e.target)};sync()}
+
+async function login(f){const d=Object.fromEntries(new FormData(f)),em=d.email.trim().toLowerCase(),u=users[em],er={};
+if(!em)er.email='Enter your email address.';if(!d.password)er.password='Enter your password.';if(!showErr(f,er))return;
+if(!u||await hash(d.password,u.salt)!==u.hash){showErr(f,{password:'Email or password is incorrect.'});return}
+store.set('tm_session',em);enter(em)}
+
+async function reg(f){const d=Object.fromEntries(new FormData(f)),em=d.email.trim().toLowerCase(),n=d.name.trim().replace(/\s+/g,' '),er={};
+if(n.length<3)er.name='Enter your full name.';
+if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em))er.email='Enter a valid email address.';else if(users[em])er.email='An account with this email already exists.';
+if(!pwOk(d.password))er.password=PWMSG;
+if(d.confirm!==d.password)er.confirm='Passwords do not match.';
+const b=new Date(d.birthday);if(!d.birthday||isNaN(b))er.birthday='Choose your birthday.';else{const a=(Date.now()-b)/31557600000;if(a<18||a>100)er.birthday='Birthday must give an age between 18 and 100.'}
+if(!d.grade)er.grade='Choose a grade.';if(d.subject.trim().length<2)er.subject='Enter the subject you teach.';
+if(!showErr(f,er))return;
+const salt=rnd();users[em]={name:n,email:em,salt,hash:await hash(d.password,salt),birthday:d.birthday,grade:d.grade,subject:d.subject.trim(),bio:'',photo:'',lessons:[],duties:[],classes:[]};
+save();store.set('tm_session',em);enter(em)}
+
+function enter(em){me=users[em];page='home';shell()}
+function shell(){$('#app').innerHTML=`<header class="top"><button class="ib" id="mb" aria-label="Open menu" aria-expanded="false">${ic('menu')}</button><h2 id="pt"></h2><button class="av" data-p="profile" aria-label="Profile">${avatar(me)}</button></header>
+<div class="ov" id="ov"></div><nav class="side" id="sd" aria-label="Main menu"><div class="sh">${LOGO}<div><b>Teacher Hub</b><span>${E(me.name)}</span></div></div>${NAV.map(([k,t,i])=>`<button data-p="${k}">${ic(i)}${t}</button>`).join('')}<button class="out" id="lo">${ic('logout')}Log out</button></nav><main id="pg" tabindex="-1"></main>`;
+$('#mb').onclick=()=>menu();$('#ov').onclick=()=>menu(false);
+$('#lo').onclick=()=>{store.set('tm_session',null);auth()};go(page)}
+function menu(o){const s=$('#sd'),open=o??!s.classList.contains('open');s.classList.toggle('open',open);$('#ov').classList.toggle('on',open);$('#mb').setAttribute('aria-expanded',open)}
+addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#sd'))menu(false)});
+
+const sorted=(a)=>[...a].sort((x,y)=>DAYS.indexOf(x.day)-DAYS.indexOf(y.day)||(x.time||'').localeCompare(y.time||''));
+function rows(a,k,del){const c=L[k];return a.length?`<ul class="rows">${a.map(i=>`<li><div><b>${E(c.h(i))}</b><span>${E(c.s(i))}</span></div>${del?`<button class="ib" data-del="${k}:${i.id}" aria-label="Delete ${E(c.h(i))}">${ic('trash')}</button>`:''}</li>`).join('')}</ul>`:`<p class="mut">${del?c.e:'Nothing scheduled today.'}</p>`}
+const V={
+home(){const t=today();return `<section class="hero"><p class="gr">${greet()}</p><h1>${E(me.name.split(' ')[0])}, here’s your ${t}</h1></section>
+<div class="stats">${[['Lessons',me.lessons.length,'lessons'],['Supervision duties',me.duties.length,'duties'],['Classes',me.classes.length,'classes']].map(([a,b,c])=>`<button class="stat" data-p="${c}"><b>${b}</b>${a}</button>`).join('')}</div>
+<h3>Today’s lessons</h3>${rows(sorted(me.lessons.filter(x=>x.day===t)),'lessons')}<h3>Today’s break supervision</h3>${rows(sorted(me.duties.filter(x=>x.day===t)),'duties')}`},
+profile(){draft={};return `<h1>Profile</h1><form id="pf" class="card" novalidate><div class="pr"><div class="pic" id="pic">${avatar(me)}</div><label class="btn ghost">Change photo<input type="file" accept="image/*" id="ph" hidden></label></div>
+${fld('name','Full name','text','value="'+E(me.name)+'" maxlength="60"')}
+<dl><div><dt>Email</dt><dd>${E(me.email)}</dd></div><div><dt>Birthday</dt><dd>${E(me.birthday)}</dd></div><div><dt>Grade</dt><dd>${E(me.grade)}</dd></div><div><dt>Subject</dt><dd>${E(me.subject)}</dd></div></dl>
+<label class="f">Bio<textarea name="bio" rows="4" maxlength="400" placeholder="Tell students and colleagues about yourself">${E(me.bio)}</textarea></label>
+<h3>Change password</h3><p class="mut">Leave these empty to keep your current password.</p>${fld('cur','Current password','password','autocomplete="current-password"')}${fld('nw','New password','password','autocomplete="new-password"')}${fld('cf','Confirm new password','password','autocomplete="new-password"')}
+<button class="btn">Save Changes</button></form>`},
+about(){return `<h1>About</h1><div class="card"><p><b>Teacher Hub</b> helps you organize your lessons, break supervision duties and classes in one place.</p><p class="mut">Your account and data are stored securely on this device. Passwords are salted and hashed, never kept as plain text.</p>
+<h3>Install the app</h3><button class="btn inst" hidden>Install Teacher Hub</button><p class="mut"><b>iPhone and iPad:</b> tap Share, then Add to Home Screen.<br><b>Android and computers:</b> open the browser menu and choose Install app.</p></div>`}};
+for(const k in L)V[k]=()=>{const c=L[k];return `<h1>${c.t}</h1><form class="card grid" id="lf" novalidate>${c.f.map(([n,l,t])=>t==='day'?`<label class="f">${l}<select name="${n}">${DAYS.map(d=>`<option${d===today()?' selected':''}>${d}</option>`).join('')}</select></label>`:fld(n,l,t,t==='number'?'min="1" max="100"':t==='text'?'maxlength="60"':'')).join('')}<button class="btn">Add ${c.a}</button></form>${rows(k==='classes'?me[k]:sorted(me[k]),k,1)}`};
+
+function go(p){page=p;const pg=$('#pg');$('#pt').textContent=NAV.find(n=>n[0]===p)[1];
+document.querySelectorAll('.side>button[data-p]').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+pg.innerHTML=V[p]();pg.classList.remove('in');void pg.offsetWidth;pg.classList.add('in');menu(false);scrollTo(0,0);
+if(L[p])$('#lf').onsubmit=e=>{e.preventDefault();addItem(p,e.target)};
+if(p==='profile'){$('#pf').onsubmit=e=>{e.preventDefault();saveP(e.target)};$('#ph').onchange=pick}sync()}
+function addItem(k,f){const c=L[k],d=Object.fromEntries(new FormData(f)),er={};
+c.f.forEach(([n,l,t,o])=>{if(!o&&!String(d[n]||'').trim())er[n]='Required.'});if(k==='classes'&&!er.students&&!(+d.students>=1))er.students='Enter a number from 1 to 100.';
+if(!showErr(f,er))return;const it={id:Date.now().toString(36)};c.f.forEach(([n])=>it[n]=String(d[n]||'').trim());
+me[k].push(it);save();go(k);toast(`${c.a[0].toUpperCase()+c.a.slice(1)} added.`)}
+function pick(e){const f=e.target.files[0];if(!f||!f.type.startsWith('image/'))return toast('Choose an image file.');const r=new FileReader();
+r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=c.height=240;const s=Math.min(im.width,im.height);c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,240,240);draft.photo=c.toDataURL('image/jpeg',.82);$('#pic').innerHTML=`<img src="${draft.photo}" alt="">`;toast('Photo ready. Press Save Changes.')};im.onerror=()=>toast('That image could not be read.');im.src=r.result};r.readAsDataURL(f)}
+async function saveP(f){const d=Object.fromEntries(new FormData(f)),n=d.name.trim().replace(/\s+/g,' '),er={},pw=d.cur||d.nw||d.cf;
+if(n.length<3)er.name='Enter your full name.';
+if(pw){if(!d.cur||await hash(d.cur,me.salt)!==me.hash)er.cur='Current password is incorrect.';if(!pwOk(d.nw))er.nw=PWMSG;if(d.cf!==d.nw)er.cf='Passwords do not match.'}
+if(!showErr(f,er))return;me.name=n;me.bio=d.bio.trim();if(draft.photo)me.photo=draft.photo;
+if(pw){me.salt=rnd();me.hash=await hash(d.nw,me.salt)}save();shell();toast('Profile saved.')}
+
+document.addEventListener('click',async e=>{const t=e.target.closest('button,[data-p]');if(!t)return;
+if(t.dataset.p&&me)go(t.dataset.p);
+else if(t.dataset.m)auth(t.dataset.m);
+else if(t.dataset.del){const[k,id]=t.dataset.del.split(':');me[k]=me[k].filter(i=>i.id!==id);save();go(page);toast('Deleted.')}
+else if(t.classList.contains('inst')&&dp){dp.prompt();await dp.userChoice;dp=null;sync()}});
+const sync=()=>document.querySelectorAll('.inst').forEach(b=>b.hidden=!dp);
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;sync()});
+addEventListener('appinstalled',()=>{dp=null;sync();toast('App installed.')});
+setInterval(()=>document.querySelectorAll('.gr').forEach(g=>g.textContent=greet()),60000);
+
+try{const mk=s=>{const c=document.createElement('canvas');c.width=c.height=s;const x=c.getContext('2d');x.scale(s/64,s/64);x.fillStyle='#0F5C63';x.fillRect(0,0,64,64);x.fillStyle='#E8B547';x.fill(new Path2D('M12 22c8-3 14-2 20 2 6-4 12-5 20-2v26c-8-3-14-2-20 2-6-4-12-5-20-2z'));x.strokeStyle='#0F5C63';x.lineWidth=3;x.beginPath();x.moveTo(32,24);x.lineTo(32,50);x.stroke();return c.toDataURL('image/png')};
+const i5=mk(512),i1=mk(192),a=document.createElement('link');a.rel='apple-touch-icon';a.href=i5;document.head.append(a);
+const m=document.createElement('link');m.rel='manifest';m.href=URL.createObjectURL(new Blob([JSON.stringify({name:'Teacher Hub',short_name:'Teacher Hub',start_url:location.href.split('#')[0],display:'standalone',background_color:'#0F5C63',theme_color:'#0F5C63',icons:[{src:i1,sizes:'192x192',type:'image/png'},{src:i5,sizes:'512x512',type:'image/png',purpose:'any'}]})],{type:'application/manifest+json'}));document.head.append(m)}catch{}
+
+$('#splash').innerHTML=LOGO+'<b>Teacher Hub</b>';
+const s=store.get('tm_session');users[s]?enter(s):auth();
+setTimeout(()=>$('#splash').classList.add('off'),900);
+</script></body></html>
